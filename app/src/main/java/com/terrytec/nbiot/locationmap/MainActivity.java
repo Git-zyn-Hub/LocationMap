@@ -71,6 +71,7 @@ public class MainActivity extends AppCompatActivity
     private static MainActivity mainActivity;
     private MapView mapView;
     private AMap aMap;
+    private boolean mZoomOnce = false;
     private TextView mLocationErrText;
     private OnLocationChangedListener mListener;
     private AMapLocationClient mlocationClient;
@@ -304,11 +305,14 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onLocationChanged(AMapLocation amapLocation) {
         if (mListener != null && amapLocation != null) {
-            if (amapLocation.getErrorCode() == 0){
+            if (amapLocation.getErrorCode() == 0) {
                 mLocationErrText.setVisibility(View.GONE);
                 mListener.onLocationChanged(amapLocation);// 显示系统小蓝点
-                aMap.moveCamera(CameraUpdateFactory.zoomTo(18));
-            } else{
+                if (!mZoomOnce) {
+                    aMap.moveCamera(CameraUpdateFactory.zoomTo(18));
+                    mZoomOnce = true;
+                }
+            } else {
                 try {
                     String errText = "定位失败," + amapLocation.getErrorCode() + ": " + amapLocation.getErrorInfo();
                     Log.e("AmapErr", errText);
