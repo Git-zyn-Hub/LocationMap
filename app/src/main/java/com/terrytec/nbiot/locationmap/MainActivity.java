@@ -95,8 +95,13 @@ public class MainActivity extends AppCompatActivity
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                Snackbar.make(view, "没事笑一下", Snackbar.LENGTH_LONG)
+                        .setAction("撤销", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                Toast.makeText(MainActivity.this, "单击了撤销", Toast.LENGTH_SHORT).show();
+                            }
+                        }).show();
             }
         });
 
@@ -110,7 +115,7 @@ public class MainActivity extends AppCompatActivity
                 NavigationView navigationView = drawerView.findViewById(R.id.nav_view);
                 Menu menu = navigationView.getMenu();
                 int size = menu.size();
-                for (int i=0;i<size;i++){
+                for (int i = 0; i < size; i++) {
                     menu.getItem(i).setChecked(false);
                 }
 //                Log.i("MainActivity", "menuSize:" + size);
@@ -277,8 +282,8 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
-            // Handle the camera action
+        if (id == R.id.set_fence) {
+
         } else if (id == R.id.nav_gallery) {
 
         } else if (id == R.id.nav_slideshow) {
