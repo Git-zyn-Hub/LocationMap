@@ -102,7 +102,20 @@ public class MainActivity extends AppCompatActivity
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close) {
+
+            @Override
+            public void onDrawerClosed(View drawerView) {
+                super.onDrawerClosed(drawerView);
+                NavigationView navigationView = drawerView.findViewById(R.id.nav_view);
+                Menu menu = navigationView.getMenu();
+                int size = menu.size();
+                for (int i=0;i<size;i++){
+                    menu.getItem(i).setChecked(false);
+                }
+//                Log.i("MainActivity", "menuSize:" + size);
+            }
+        };
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
@@ -292,7 +305,7 @@ public class MainActivity extends AppCompatActivity
         // 自定义精度范围的圆形边框颜色
         myLocationStyle.strokeColor(STROKE_COLOR);
         //自定义精度范围的圆形边框宽度
-        myLocationStyle.strokeWidth(5);
+        myLocationStyle.strokeWidth(2);
         // 设置圆形的填充颜色
         myLocationStyle.radiusFillColor(FILL_COLOR);
         // 将自定义的 myLocationStyle 对象添加到地图上
