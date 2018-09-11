@@ -215,6 +215,7 @@ public class MainActivity extends AppCompatActivity
         mapView = findViewById(R.id.map);
         mapView.onCreate(savedInstanceState);
         initMap();
+        creatFenceVar();
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -262,7 +263,7 @@ public class MainActivity extends AppCompatActivity
         aMap.getUiSettings().setMyLocationButtonEnabled(true);// 设置默认定位按钮是否显示
         aMap.setMyLocationEnabled(true);// 设置为true表示显示定位层并可触发定位，false表示隐藏定位层并不可触发定位，默认是false
         // 设置定位的类型为定位模式 ，可以由定位、跟随或地图根据面向方向旋转几种
-        aMap.setMyLocationType(1);
+        //aMap.setMyLocationType(1);
         setupLocationStyle();
     }
 
@@ -369,7 +370,6 @@ public class MainActivity extends AppCompatActivity
     private void creatFenceVar() {
         fenceClient = new GeoFenceClient(getApplicationContext());
         fence_option = findViewById(R.id.fence_option);
-        fence_option.setVisibility(View.VISIBLE);
         rgFenceType = (RadioGroup) findViewById(R.id.rg_fenceType);
         lyOption = findViewById(R.id.ly_option);
         btAddFence = (Button) findViewById(R.id.bt_addFence);
@@ -741,14 +741,7 @@ public class MainActivity extends AppCompatActivity
                 addFence();
                 break;
             case R.id.bt_option:
-                if (btOption.getText().toString()
-                        .equals(getString(R.string.showOption))) {
-                    lyOption.setVisibility(View.VISIBLE);
-                    btOption.setText(getString(R.string.hideOption));
-                } else {
-                    lyOption.setVisibility(View.GONE);
-                    btOption.setText(getString(R.string.showOption));
-                }
+                fence_option.setVisibility(View.GONE);
                 break;
             default:
                 break;
@@ -961,7 +954,7 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.set_fence) {
-            creatFenceVar();
+            fence_option.setVisibility(View.VISIBLE);
         } else if (id == R.id.nav_gallery) {
 
         } else if (id == R.id.nav_slideshow) {
@@ -991,6 +984,8 @@ public class MainActivity extends AppCompatActivity
         myLocationStyle.strokeWidth(2);
         // 设置圆形的填充颜色
         myLocationStyle.radiusFillColor(FILL_COLOR);
+        //定位一次，且将视角移动到地图中心点。
+        myLocationStyle.myLocationType(MyLocationStyle.LOCATION_TYPE_LOCATE);
         // 将自定义的 myLocationStyle 对象添加到地图上
         aMap.setMyLocationStyle(myLocationStyle);
     }
