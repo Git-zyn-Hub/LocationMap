@@ -609,31 +609,32 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onMapClick(LatLng latLng) {
-        markerOption.icon(ICON_YELLOW);
-        switch (rgFenceType.getCheckedRadioButtonId()) {
-            case R.id.rb_roundFence:
-            case R.id.rb_nearbyFence:
-                centerLatLng = latLng;
-                addCenterMarker(centerLatLng);
-                tvGuide.setBackgroundColor(
-                        getResources().getColor(R.color.gary));
-                tvGuide.setText("选中的坐标：" + centerLatLng.longitude + ","
-                        + centerLatLng.latitude);
-                break;
-            case R.id.rb_polygonFence:
-                if (null == polygonPoints) {
-                    polygonPoints = new ArrayList<LatLng>();
-                }
-                polygonPoints.add(latLng);
-                addPolygonMarker(latLng);
-                tvGuide.setBackgroundColor(
-                        getResources().getColor(R.color.gary));
-                tvGuide.setText("已选择" + polygonPoints.size() + "个点");
-                if (polygonPoints.size() >= 3) {
-                    btAddFence.setEnabled(true);
-                }
-                break;
-
+        if (fence_option.getVisibility() == View.VISIBLE) {
+            markerOption.icon(ICON_YELLOW);
+            switch (rgFenceType.getCheckedRadioButtonId()) {
+                case R.id.rb_roundFence:
+                case R.id.rb_nearbyFence:
+                    centerLatLng = latLng;
+                    addCenterMarker(centerLatLng);
+                    tvGuide.setBackgroundColor(
+                            getResources().getColor(R.color.gary));
+                    tvGuide.setText("选中的坐标：" + centerLatLng.longitude + ","
+                            + centerLatLng.latitude);
+                    break;
+                case R.id.rb_polygonFence:
+                    if (null == polygonPoints) {
+                        polygonPoints = new ArrayList<LatLng>();
+                    }
+                    polygonPoints.add(latLng);
+                    addPolygonMarker(latLng);
+                    tvGuide.setBackgroundColor(
+                            getResources().getColor(R.color.gary));
+                    tvGuide.setText("已选择" + polygonPoints.size() + "个点");
+                    if (polygonPoints.size() >= 3) {
+                        btAddFence.setEnabled(true);
+                    }
+                    break;
+            }
         }
     }
 
@@ -742,6 +743,7 @@ public class MainActivity extends AppCompatActivity
                 break;
             case R.id.bt_option:
                 fence_option.setVisibility(View.GONE);
+                removeMarkers();
                 break;
             default:
                 break;
